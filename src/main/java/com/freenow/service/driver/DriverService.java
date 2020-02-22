@@ -1,22 +1,30 @@
 package com.freenow.service.driver;
 
-import com.freenow.domainobject.DriverDO;
+import java.util.List;
+
+import com.freenow.domainobject.CarDO;
+import com.freenow.domainobject.DriverFullDO;
 import com.freenow.domainvalue.OnlineStatus;
 import com.freenow.exception.ConstraintsViolationException;
 import com.freenow.exception.EntityNotFoundException;
-import java.util.List;
 
 public interface DriverService
 {
 
-    DriverDO find(Long driverId) throws EntityNotFoundException;
-
-    DriverDO create(DriverDO driverDO) throws ConstraintsViolationException;
+    DriverFullDO find(Long driverId) throws EntityNotFoundException;
 
     void delete(Long driverId) throws EntityNotFoundException;
 
     void updateLocation(long driverId, double longitude, double latitude) throws EntityNotFoundException;
 
-    List<DriverDO> find(OnlineStatus onlineStatus);
+
+    List<DriverFullDO> find(OnlineStatus onlineStatus);
+
+    DriverFullDO selectCar(long driverId, CarDO car) throws EntityNotFoundException;
+
+    DriverFullDO removeCar(long driverId) throws EntityNotFoundException;
+
+
+    DriverFullDO create(DriverFullDO DriverFullDO) throws ConstraintsViolationException;
 
 }

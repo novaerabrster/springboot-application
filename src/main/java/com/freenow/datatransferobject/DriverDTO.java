@@ -1,10 +1,11 @@
 package com.freenow.datatransferobject;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.freenow.domainvalue.GeoCoordinate;
-import javax.validation.constraints.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DriverDTO
@@ -20,18 +21,19 @@ public class DriverDTO
 
     private GeoCoordinate coordinate;
 
-
+    private CarDTO car;
     private DriverDTO()
     {
     }
 
 
-    private DriverDTO(Long id, String username, String password, GeoCoordinate coordinate)
+    private DriverDTO(Long id, String username, String password, GeoCoordinate coordinate, CarDTO car)
     {
         this.id = id;
         this.username = username;
         this.password = password;
         this.coordinate = coordinate;
+        this.car = car;
     }
 
 
@@ -71,6 +73,7 @@ public class DriverDTO
         private String username;
         private String password;
         private GeoCoordinate coordinate;
+        private CarDTO car;
 
 
         public DriverDTOBuilder setId(Long id)
@@ -101,10 +104,23 @@ public class DriverDTO
         }
 
 
-        public DriverDTO createDriverDTO()
+        public DriverDTOBuilder setCar(CarDTO car)
         {
-            return new DriverDTO(id, username, password, coordinate);
+            this.car = car;
+            return this;
         }
 
+
+        public DriverDTO createDriverDTO()
+        {
+            return new DriverDTO(id, username, password, coordinate, car);
+        }
+
+
+    }
+
+    public CarDTO getCar()
+    {
+        return car;
     }
 }

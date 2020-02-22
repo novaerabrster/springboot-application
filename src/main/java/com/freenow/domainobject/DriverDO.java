@@ -1,26 +1,23 @@
 package com.freenow.domainobject;
 
-import com.freenow.domainvalue.GeoCoordinate;
-import com.freenow.domainvalue.OnlineStatus;
 import java.time.ZonedDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Entity
-@Table(
-    name = "driver",
-    uniqueConstraints = @UniqueConstraint(name = "uc_username", columnNames = {"username"})
-)
+import com.freenow.domainvalue.GeoCoordinate;
+import com.freenow.domainvalue.OnlineStatus;
+
+@MappedSuperclass
 public class DriverDO
 {
 
@@ -54,20 +51,16 @@ public class DriverDO
     @Column(nullable = false)
     private OnlineStatus onlineStatus;
 
-
-    private DriverDO()
-    {
-    }
-
-
-    public DriverDO(String username, String password)
+    protected DriverDO(String username, String password)
     {
         this.username = username;
         this.password = password;
-        this.deleted = false;
-        this.coordinate = null;
-        this.dateCoordinateUpdated = null;
-        this.onlineStatus = OnlineStatus.OFFLINE;
+    }
+
+
+    protected DriverDO()
+    {
+        super();
     }
 
 
