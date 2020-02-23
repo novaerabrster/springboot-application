@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.freenow.controller.mapper.DriverMapper;
 import com.freenow.datatransferobject.DriverDTO;
 import com.freenow.domainobject.CarDO;
+import com.freenow.exception.CarAlreadyInUseException;
 import com.freenow.exception.EntityNotFoundException;
 import com.freenow.service.car.CarService;
 import com.freenow.service.driver.DriverService;
@@ -28,9 +29,11 @@ public class DriverControllerV2 extends DriverController
 
 
     @PatchMapping("/{driverId}/car/select/{carId}")
-    public DriverDTO selectCar(@PathVariable long driverId, @PathVariable long carId) throws EntityNotFoundException
+    public DriverDTO selectCar(@PathVariable long driverId, @PathVariable long carId) throws EntityNotFoundException, CarAlreadyInUseException
     {
         CarDO car = carService.find(carId);
+        if (car.getDriver() != null)
+            throw new CarAlreadyInUseException("This car is already i use :(");
         return DriverMapper.makeDriverDTO(driverService.selectCar(driverId, car));
 
     }

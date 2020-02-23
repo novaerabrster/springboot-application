@@ -6,9 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -75,6 +77,9 @@ public class CarDO
 
     @Column(nullable = false)
     private Boolean deleted = false;
+
+    @OneToOne(mappedBy = "car", fetch = FetchType.EAGER)
+    private DriverFullDO driver;
 
     public CarDO(
         String licensePlate, Integer seatCount, Boolean convertible,
@@ -286,6 +291,18 @@ public class CarDO
             + id + ", dateCreated=" + dateCreated + ", licensePlate=" + licensePlate + ", seatCount=" + seatCount + ", convertible=" + convertible + ", color=" + color
             + ", rating=" + rating + ", manufacturer=" + manufacturer + ", engineType=" + engineType + ", modelYear=" + modelYear + ", category=" + category + ", deleted="
             + deleted + "]";
+    }
+
+
+    public DriverFullDO getDriver()
+    {
+        return driver;
+    }
+
+
+    public void setDriver(DriverFullDO driver)
+    {
+        this.driver = driver;
     }
 
 }

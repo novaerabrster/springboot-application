@@ -35,7 +35,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
     DriverService service;
 
     @Test
-    public void test01_driverSelectsCar() throws Exception
+    public void test00_driverSelectsCar() throws Exception
     {
         mvc
             .perform(
@@ -53,11 +53,22 @@ public class DriverControllerV2Test extends BaseIntegrationTest
 
 
     @Test
+    public void test01_driverSelectsCar() throws Exception
+    {
+        mvc
+            .perform(
+                patch("/v2/drivers/5/car/select/5")
+                    .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().is(HttpStatus.CONFLICT.value()));
+
+    }
+
+    @Test
     public void test02_nonExistingDriverSelectsCar() throws Exception
     {
         mvc
             .perform(
-                patch("/v2/drivers/999/car/select/5")
+                patch("/v2/drivers/999/car/select/2")
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
     }
