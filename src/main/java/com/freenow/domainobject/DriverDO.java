@@ -49,7 +49,7 @@ public class DriverDO
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private OnlineStatus onlineStatus;
+    private OnlineStatus onlineStatus = OnlineStatus.ONLINE;
 
     protected DriverDO(String username, String password)
     {

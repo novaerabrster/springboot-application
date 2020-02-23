@@ -36,7 +36,7 @@ public class DriverControllerV2 extends DriverController
     }
 
 
-    @DeleteMapping("/{driverId}/car/delete")
+    @DeleteMapping("/{driverId}/car/remove")
     public void removeCar(@PathVariable long driverId) throws EntityNotFoundException
     {
         driverService.removeCar(driverId);
