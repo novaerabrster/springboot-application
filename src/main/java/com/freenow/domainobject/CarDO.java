@@ -305,4 +305,22 @@ public class CarDO
         this.driver = driver;
     }
 
+
+    public void clear()
+    {
+        this.id = null;
+        this.dateCreated = null;
+        this.licensePlate = null;
+        this.seatCount = null;
+        this.convertible = null;
+        this.color = null;
+        this.rating = null;
+        this.manufacturer = null;
+        this.engineType = null;
+        this.modelYear = null;
+        this.category = null;
+        this.deleted = null;
+        this.driver = null;
+    }
+
 }

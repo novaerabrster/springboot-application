@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.freenow.datatransferobject.CarDTO;
 import com.freenow.datatransferobject.CarDTO.CarDTOBuilder;
+import com.freenow.datatransferobject.filter.CarFilterDTO;
 import com.freenow.domainobject.CarDO;
 
 public class CarMapper
@@ -21,6 +22,25 @@ public class CarMapper
             carDTO.getModelYear(), carDTO.getCategory());
     }
 
+    public static CarDO makeCarDOFilter(CarFilterDTO filter)
+    {
+        if (filter == null)
+            return null;
+
+        CarDO result = new CarDO();
+        result.clear();
+        result.setId(filter.getId());
+        result.setLicensePlate(filter.getLicensePlate());
+        result.setSeatCount(filter.getSeatCount());
+        result.setConvertible(filter.isConvertible());
+        result.setColor(filter.getColor());
+        result.setRating(filter.getRating());
+        result.setManufacturer(filter.getManufacturer());
+        result.setEngineType(filter.getEngineType());
+        result.setModelYear(filter.getModelYear());
+        result.setCategory(filter.getCategory());
+        return result;
+    }
 
     public static CarDTO makeCarDTO(CarDO carDO)
     {

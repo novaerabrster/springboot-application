@@ -134,7 +134,7 @@ public class CarControllerIntegrationTest extends BaseIntegrationTest
     {
         mvc
             .perform(
-                delete("/v1/cars/4")
+                delete("/v1/cars/6")
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.OK.value()));
         mvc
@@ -142,7 +142,7 @@ public class CarControllerIntegrationTest extends BaseIntegrationTest
                 get("/v1/cars?category=REGULAR")
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(2)))
+            .andExpect(jsonPath("$", hasSize(3)))
             .andExpect(jsonPath("$[0].category", is("REGULAR")));
     }
 
@@ -171,7 +171,7 @@ public class CarControllerIntegrationTest extends BaseIntegrationTest
                 get("/v1/cars?category=REGULAR")
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(3)))
+            .andExpect(jsonPath("$", hasSize(4)))
             .andExpect(jsonPath("$[0].category", is("REGULAR")));
 
         mvc

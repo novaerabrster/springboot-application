@@ -47,13 +47,16 @@ insert into car (id, date_created, license_plate, seat_count, convertible, color
 VALUES(1, now(), 'ABC1234', 4, true, 'BLACK', 5, 'OPEL', 'GAS',false, 2020, 'LUXURY');
 
 insert into car (id, date_created, license_plate, seat_count, convertible, color, rating, manufacturer, engine_type, deleted, model_year, category) 
-VALUES(2, now(), 'ZYX0987', 4, false, 'WHITE', 5, 'MERCEDEZ', 'GAS',false, 2019, 'LARGE');
+VALUES(2, now(), 'ZYX0987', 4, false, 'WHITE', 5, 'MERCEDEZ', 'HYBRID',false, 2019, 'LARGE');
 
 insert into car (id, date_created, license_plate, seat_count, convertible, color, rating, manufacturer, engine_type, deleted, model_year, category) 
-VALUES(3, now(), 'FGH7293', 4, true, 'SILVER', 5, 'AUDI', 'GAS',false, 2018, 'REGULAR');
+VALUES(3, now(), 'FGH7293', 4, true, 'SILVER', 5, 'AUDI', 'ELECTRIC',false, 2018, 'REGULAR');
 
 insert into car (id, date_created, license_plate, seat_count, convertible, color, rating, manufacturer, engine_type, deleted, model_year, category) 
 VALUES(4, now(), 'LME7100', 4, false, 'RED', 5, 'TESLA', 'GAS',false, 2020, 'REGULAR');
 
 insert into car (id, date_created, license_plate, seat_count, convertible, color, rating, manufacturer, engine_type, deleted, model_year, category) 
 VALUES(5, now(), 'GAE2989', 4, true, 'BLUE', 5, 'VOLKSWAGEN', 'GAS',false, 2015, 'LARGE');
+
+insert into car (id, date_created, license_plate, seat_count, convertible, color, rating, manufacturer, engine_type, deleted, model_year, category) 
+VALUES(6, now(), 'GAF8789', 4, true, 'BLUE', 5, 'VOLKSWAGEN', 'GAS',false, 2015, 'REGULAR');

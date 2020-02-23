@@ -120,7 +120,7 @@ public class DriverControllerTest extends BaseIntegrationTest
     {
         mvc
             .perform(
-                delete("/v1/drivers/4")
+                delete("/v1/drivers/6")
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.OK.value()));
 

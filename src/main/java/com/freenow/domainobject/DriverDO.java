@@ -58,6 +58,20 @@ public class DriverDO
     }
 
 
+    protected DriverDO(
+        Long id, ZonedDateTime dateCreated, String username, GeoCoordinate coordinate,
+        ZonedDateTime dateCoordinateUpdated, OnlineStatus onlineStatus)
+    {
+        super();
+        this.id = id;
+        this.dateCreated = dateCreated;
+        this.username = username;
+        this.coordinate = coordinate;
+        this.dateCoordinateUpdated = dateCoordinateUpdated;
+        this.onlineStatus = onlineStatus;
+    }
+
+
     protected DriverDO()
     {
         super();
@@ -122,6 +136,25 @@ public class DriverDO
     {
         this.coordinate = coordinate;
         this.dateCoordinateUpdated = ZonedDateTime.now();
+    }
+
+
+    protected void clear()
+    {
+        this.id = null;
+        this.dateCreated = null;
+        this.username = null;
+        this.password = null;
+        this.deleted = null;
+        this.coordinate = null;
+        this.dateCoordinateUpdated = null;
+        this.onlineStatus = null;
+    }
+
+
+    public void setUsername(String username)
+    {
+        this.username = username;
     }
 
 }

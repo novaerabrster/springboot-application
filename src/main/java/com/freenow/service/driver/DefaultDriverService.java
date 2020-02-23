@@ -15,6 +15,8 @@ import com.freenow.domainvalue.GeoCoordinate;
 import com.freenow.domainvalue.OnlineStatus;
 import com.freenow.exception.ConstraintsViolationException;
 import com.freenow.exception.EntityNotFoundException;
+import com.freenow.exception.FilterNotSetException;
+import com.freenow.exception.InvalidParameterListException;
 
 /**
  * Service to encapsulate the link between DAO and controller and to have business logic for some driver specific things.
@@ -26,13 +28,12 @@ public class DefaultDriverService implements DriverService
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultDriverService.class);
 
-    private final DriverRepository driverRepository;
+    private final DriverRepository repository;
 
-
-    public DefaultDriverService(DriverRepository driverRepository)
+    public DefaultDriverService(DriverRepository repository)
     {
         super();
-        this.driverRepository = driverRepository;
+        this.repository = repository;
     }
 
 
@@ -63,7 +64,7 @@ public class DefaultDriverService implements DriverService
         DriverFullDO driver;
         try
         {
-            driver = driverRepository.save(DriverFullDO);
+            driver = repository.save(DriverFullDO);
         }
         catch (DataIntegrityViolationException e)
         {
@@ -120,7 +121,7 @@ public class DefaultDriverService implements DriverService
     {
         DriverFullDO driver = findDriverChecked(driverId);
         driver.setCar(car);
-        driver = driverRepository.save(driver);
+        driver = repository.save(driver);
         return driver;
 
     }
@@ -140,8 +141,10 @@ public class DefaultDriverService implements DriverService
     {
         DriverFullDO driver = findDriverChecked(driverId);
         driver.setCar(null);
-        return driverRepository.save(driver);
+        return repository.save(driver);
     }
+
+
     /**
      * Find all drivers by online state.
      *
@@ -150,13 +153,31 @@ public class DefaultDriverService implements DriverService
     @Override
     public List<DriverFullDO> find(OnlineStatus onlineStatus)
     {
-        return driverRepository.findByOnlineStatus(onlineStatus);
+        return repository.findByOnlineStatus(onlineStatus);
+    }
+
+
+    /**
+     *
+     * Searches for drivers based on various filter possibilities.
+     *
+     * @param carFilter
+     * @param driverFilter
+     * @throws FilterNotSetException if not a single filter was set
+     * @throws InvalidParameterListException if there was some kind of programming mistake
+     *
+     */
+    @Override
+    public List<DriverFullDO> searchDrivers(CarDO carFilter, DriverFullDO driverFilter) throws FilterNotSetException, InvalidParameterListException
+    {
+        return repository.searchDrivers(driverFilter, carFilter);
     }
 
 
     private DriverFullDO findDriverChecked(Long driverId) throws EntityNotFoundException
     {
-        return driverRepository.findById(driverId)
+        return repository
+            .findById(driverId)
             .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + driverId));
     }
 
