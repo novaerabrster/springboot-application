@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,14 +20,14 @@ public class DefaultCarService implements CarService
 {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultCarService.class);
 
-    private final CarRepository repository;
+    @Autowired
+    private CarRepository repository;
 
     public DefaultCarService(CarRepository repository)
     {
         super();
         this.repository = repository;
     }
-
 
     /**
      * Selects a car by id.
@@ -116,7 +117,7 @@ public class DefaultCarService implements CarService
     private CarDO findCarChecked(Long carId) throws EntityNotFoundException
     {
         return repository
-            .findById(carId)
+            .findByIdAndDeleted(carId, false)
             .orElseThrow(() -> new EntityNotFoundException("Could not find entity with id: " + carId));
     }
 
