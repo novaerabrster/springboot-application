@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,7 +37,11 @@ public class CarControllerIntegrationTest extends BaseIntegrationTest
     @Autowired
     CarService carService;
 
-
+    @Before
+    public void setUp() throws Exception
+    {
+        super.setUp(mvc);
+    }
     @Test
     public void test01_testControllerInjected()
     {
@@ -47,10 +52,12 @@ public class CarControllerIntegrationTest extends BaseIntegrationTest
     @Test
     public void test02_findCarsByCategoryTest() throws Exception
     {
+
         mvc
             .perform(
                 get("/v1/cars?category=LUXURY")
-                    .contentType(MediaType.APPLICATION_JSON))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken()))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(1)))
             .andExpect(jsonPath("$[0].category", is("LUXURY")));
@@ -63,6 +70,7 @@ public class CarControllerIntegrationTest extends BaseIntegrationTest
         mvc
             .perform(
                 get("/v1/cars/1")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.id", is(1)));
@@ -75,9 +83,11 @@ public class CarControllerIntegrationTest extends BaseIntegrationTest
         mvc
             .perform(
                 get("/v1/cars/999")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
     }
+
 
     @Test
     public void test05_createCarTest() throws Exception
@@ -85,6 +95,7 @@ public class CarControllerIntegrationTest extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v1/cars/create")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -110,6 +121,7 @@ public class CarControllerIntegrationTest extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v1/cars/create")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -135,11 +147,13 @@ public class CarControllerIntegrationTest extends BaseIntegrationTest
         mvc
             .perform(
                 delete("/v1/cars/6")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.OK.value()));
         mvc
             .perform(
                 get("/v1/cars?category=REGULAR")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(3)))
@@ -153,6 +167,7 @@ public class CarControllerIntegrationTest extends BaseIntegrationTest
         mvc
             .perform(
                 delete("/v1/cars/999")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
     }
@@ -164,11 +179,13 @@ public class CarControllerIntegrationTest extends BaseIntegrationTest
         mvc
             .perform(
                 patch("/v1/cars/1?category=REGULAR")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.OK.value()));
         mvc
             .perform(
                 get("/v1/cars?category=REGULAR")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(4)))
@@ -177,6 +194,7 @@ public class CarControllerIntegrationTest extends BaseIntegrationTest
         mvc
             .perform(
                 get("/v1/cars/1")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.category", is("REGULAR")));
@@ -189,6 +207,7 @@ public class CarControllerIntegrationTest extends BaseIntegrationTest
         mvc
             .perform(
                 patch("/v1/cars/999?category=REGULAR")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
     }

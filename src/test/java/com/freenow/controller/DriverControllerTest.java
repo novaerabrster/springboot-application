@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,12 +38,20 @@ public class DriverControllerTest extends BaseIntegrationTest
     @Autowired
     DriverService service;
 
+    @Before
+    public void setUp() throws Exception
+    {
+        super.setUp(mvc);
+    }
+
+
     @Test
     public void test01_findDriverByIdTest() throws Exception
     {
         mvc
             .perform(
                 get("/v1/drivers/1")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.id", is(1)));
@@ -55,6 +64,7 @@ public class DriverControllerTest extends BaseIntegrationTest
         mvc
             .perform(
                 get("/v1/drivers/999")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
     }
@@ -66,6 +76,7 @@ public class DriverControllerTest extends BaseIntegrationTest
         mvc
             .perform(
                 get("/v1/drivers?onlineStatus=ONLINE")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(4)));
@@ -79,6 +90,7 @@ public class DriverControllerTest extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v1/drivers")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -101,16 +113,19 @@ public class DriverControllerTest extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v1/drivers")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content("{\n" +
-                "  \"coordinate\": {\n" +
-                "    \"latitude\": 90,\n" +
-                "    \"longitude\": 180\n" +
-                "  },\n" +
-                "  \"id\": 0,\n" +
-                "  \"password\": \"string\",\n" +
-                "  \"username\": \"string\"\n" +
-                "}"))
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(
+                        "{\n"
+                            +
+                            "  \"coordinate\": {\n" +
+                            "    \"latitude\": 90,\n" +
+                            "    \"longitude\": 180\n" +
+                            "  },\n" +
+                            "  \"id\": 0,\n" +
+                            "  \"password\": \"string\",\n" +
+                            "  \"username\": \"string\"\n" +
+                            "}"))
             .andExpect(status().is(HttpStatus.BAD_REQUEST.value()));
     }
 
@@ -121,6 +136,7 @@ public class DriverControllerTest extends BaseIntegrationTest
         mvc
             .perform(
                 delete("/v1/drivers/6")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.OK.value()));
 
@@ -133,6 +149,7 @@ public class DriverControllerTest extends BaseIntegrationTest
         mvc
             .perform(
                 delete("/v1/drivers/999")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
     }
@@ -144,6 +161,7 @@ public class DriverControllerTest extends BaseIntegrationTest
         mvc
             .perform(
                 put("/v1/drivers/5?longitude=30&latitude=30")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.OK.value()));
 
@@ -156,6 +174,7 @@ public class DriverControllerTest extends BaseIntegrationTest
         mvc
             .perform(
                 put("/v1/drivers/999?longitude=30&latitude=30")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
     }

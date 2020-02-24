@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,17 +37,26 @@ public class DriverControllerV2Test extends BaseIntegrationTest
     @Autowired
     DriverService service;
 
+    @Before
+    public void setUp() throws Exception
+    {
+        super.setUp(mvc);
+    }
+
+
     @Test
     public void test00_driverSelectsCar() throws Exception
     {
         mvc
             .perform(
                 patch("/v2/drivers/4/car/select/5")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
         mvc
             .perform(
                 get("/v1/drivers/4")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.id", is(4)))
@@ -60,6 +70,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 patch("/v2/drivers/5/car/select/5")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.CONFLICT.value()));
 
@@ -72,6 +83,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 patch("/v2/drivers/999/car/select/2")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
     }
@@ -83,6 +95,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 patch("/v2/drivers/4/car/select/999")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
     }
@@ -94,11 +107,13 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 delete("/v2/drivers/4/car/remove")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
         mvc
             .perform(
                 get("/v1/drivers/4")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.id", is(4)))
@@ -112,6 +127,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 delete("/v2/drivers/999/car/remove")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().is(HttpStatus.NOT_FOUND.value()));
     }
@@ -126,6 +142,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v2/drivers/search")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -150,6 +167,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v2/drivers/search")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -173,6 +191,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v2/drivers/search")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -196,6 +215,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v2/drivers/search")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -219,6 +239,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v2/drivers/search")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -242,6 +263,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v2/drivers/search")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -265,6 +287,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v2/drivers/search")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -288,6 +311,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v2/drivers/search")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -310,6 +334,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v2/drivers/search")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -333,6 +358,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v2/drivers/search")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -356,6 +382,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v2/drivers/search")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -379,6 +406,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v2/drivers/search")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -402,6 +430,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v2/drivers/search")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -424,6 +453,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v2/drivers/search")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -447,6 +477,7 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 post("/v2/drivers/search")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(
                         "{\n"
@@ -472,26 +503,31 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 delete("/v2/drivers/1/car/remove")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
         mvc
             .perform(
                 delete("/v2/drivers/2/car/remove")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
         mvc
             .perform(
                 delete("/v2/drivers/3/car/remove")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
         mvc
             .perform(
                 delete("/v2/drivers/4/car/remove")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
         mvc
             .perform(
                 delete("/v2/drivers/5/car/remove")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
     }
@@ -502,26 +538,31 @@ public class DriverControllerV2Test extends BaseIntegrationTest
         mvc
             .perform(
                 patch("/v2/drivers/1/car/select/1")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
         mvc
             .perform(
                 patch("/v2/drivers/2/car/select/2")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
         mvc
             .perform(
                 patch("/v2/drivers/3/car/select/3")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
         mvc
             .perform(
                 patch("/v2/drivers/4/car/select/4")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
         mvc
             .perform(
                 patch("/v2/drivers/5/car/select/5")
+                    .header("Authorization", "Bearer " + authResponse.getAccessToken())
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
     }
