@@ -22,6 +22,13 @@ public class CarMapper
             carDTO.getModelYear(), carDTO.getCategory());
     }
 
+
+    private CarMapper()
+    {
+        super();
+    }
+
+
     public static CarDO makeCarDOFilter(CarFilterDTO filter)
     {
         if (filter == null)

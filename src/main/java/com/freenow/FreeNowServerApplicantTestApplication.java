@@ -40,7 +40,7 @@ public class FreeNowServerApplicantTestApplication extends WebMvcConfigurerAdapt
 
 
     @Bean
-    public Docket docket()
+    public Docket driverCarAPI()
     {
         List<Parameter> params = new ArrayList<>();
         params
@@ -52,9 +52,44 @@ public class FreeNowServerApplicantTestApplication extends WebMvcConfigurerAdapt
                     .required(true)
                     .build());
         return new Docket(DocumentationType.SWAGGER_2)
+            .groupName("Driver-Car APIs")
             .select()
             .apis(RequestHandlerSelectors.basePackage(getClass().getPackage().getName()))
+            //basePackage(getClass().getPackage().getName())
             .paths(PathSelectors.any())
+            .build()
+            .apiInfo(generateApiInfo())
+            .globalOperationParameters(params);
+    }
+
+
+    @Bean
+    public Docket authenticationAPI()
+    {
+        List<Parameter> params = new ArrayList<>();
+        params
+            .add(
+                new ParameterBuilder()
+                    .name("Authorization")
+                    .modelRef(new ModelRef("string"))
+                    .parameterType("header")
+                    .required(true)
+                    .defaultValue("Basic YzIzZTQ3ZmEtZTI4Yi00ODEzLThhNjItNTIxMDYwZjU4ZGI5OmQ1NGNiYjViLTc5ODUtNDg3YS1iNGU2LTFmMmFlMzk5N2Q4MQ==")
+                    .build());
+        params
+            .add(
+                new ParameterBuilder()
+                    .name("grant_type")
+                    .modelRef(new ModelRef("string"))
+                    .parameterType("query")
+                    .required(true)
+                    .defaultValue("client_credentials")
+                    .build());
+        return new Docket(DocumentationType.SWAGGER_2)
+            .groupName("Authorization")
+            .select()
+            .apis(RequestHandlerSelectors.any())
+            .paths(PathSelectors.ant("/oauth/token"))
             .build()
             .apiInfo(generateApiInfo())
             .globalOperationParameters(params);

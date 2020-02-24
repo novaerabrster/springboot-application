@@ -17,6 +17,10 @@ public class DriverMapper
     }
 
 
+    private DriverMapper()
+    {
+        super();
+    }
     public static DriverFullDO makeDriverDOFilter(DriverFilterDTO filter)
     {
         if (filter == null)
@@ -24,9 +28,7 @@ public class DriverMapper
         DriverFullDO result = new DriverFullDO();
         result.clear();
         result.setId(filter.getId());
-        //        result.setDateCreated(filter.getDateCreated());
         result.setUsername(filter.getUsername());
-        //        result.setDateCoordinateUpdated(filter.getDateCoordinateUpdated());
         result.setOnlineStatus(filter.getOnlineStatus());
         return result;
     }
