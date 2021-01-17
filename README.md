@@ -9,3 +9,6 @@ The project is based on a small web service which uses the following technologie
 * Spring Boot
 * Database H2 (In-Memory)
 * Maven
+
+## Disclaimer
+This application was a task of a hiring process I (novaerabrster / Gui Peluzzo) have participated in the last year and I have altered it to a public repository, obfuscating the name of the company. 
